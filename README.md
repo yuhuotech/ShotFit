@@ -47,7 +47,7 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yuhuotech/scrennshot-resizer.git
+git clone https://github.com/yuhuotech/screenshot-resizer.git
 cd screenshot-resizer
 
 # 安装依赖
