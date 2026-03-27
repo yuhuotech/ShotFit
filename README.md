@@ -1,137 +1,145 @@
-# App Store Screenshot Resizer
+# App Store 截图尺寸调整工具
 
-A lightweight, browser-based tool for batch-resizing screenshots to Apple App Store required dimensions. No uploads, no backend — everything runs locally in your browser.
+批量将截图调整为苹果应用商店所需的固定分辨率，无需上传服务器，所有处理均在浏览器本地完成。
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38bdf8?logo=tailwindcss)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-## Features
+## 在线体验
 
-- **Drag & drop or click to upload** — supports PNG, JPG, and WEBP
-- **Batch processing** — upload up to 20 images at once
-- **4 App Store resolutions** supported out of the box
-- **Forced-stretch resize** via Canvas API — guaranteed exact pixel dimensions
-- **One-click ZIP download** — all resized images packed into a single ZIP
-- **Filename deduplication** — handles duplicate filenames automatically
-- **Zero data leaves your device** — all processing happens in the browser
+**[https://scrennshot-resizer.vercel.app](https://scrennshot-resizer.vercel.app)**
 
-## Supported Resolutions
+免费部署在 Vercel，无需安装，打开即用。
 
-| Device | Resolution |
-|--------|------------|
+## 界面预览
+
+![界面截图](screenshots/index.png)
+
+## 功能特点
+
+- **拖拽或点击上传** — 支持 PNG、JPG、WEBP 格式
+- **批量处理** — 最多同时上传 20 张图片
+- **4 种 App Store 分辨率** — 覆盖主流 iPhone 机型
+- **强制拉伸调整** — 基于 Canvas API，输出尺寸精确匹配
+- **一键打包下载** — 所有调整后的图片打包为一个 ZIP 文件
+- **文件名去重** — 自动处理同名文件冲突
+- **数据不离开设备** — 全程本地处理，无任何上传
+
+## 支持的分辨率
+
+| 设备 | 分辨率 |
+|------|--------|
 | iPhone 竖屏 | 1242 × 2688 px |
 | iPhone 横屏 | 2688 × 1242 px |
 | iPhone 竖屏 Pro | 1284 × 2778 px |
 | iPhone 横屏 Pro | 2778 × 1284 px |
 
-## Getting Started
+## 本地开发
 
-### Prerequisites
+### 环境要求
 
 - Node.js 18+
 - npm
 
-### Development
+### 启动开发服务器
 
 ```bash
-# Clone the repo
+# 克隆仓库
 git clone https://github.com/your-username/screenshot-resizer.git
 cd screenshot-resizer
 
-# Install dependencies
+# 安装依赖
 npm install
 
-# Start development server
+# 启动开发服务器
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+打开 [http://localhost:3000](http://localhost:3000) 即可使用。
 
-### Build
+### 构建
 
 ```bash
 npm run build
 npm start
 ```
 
-### Tests
+### 运行测试
 
 ```bash
 npm test
 ```
 
-## Deploy to Vercel
+## 部署到 Vercel
 
-The easiest way to deploy is via Vercel (free tier works great):
-
-**Option A — One-click via Vercel CLI:**
+**方式一 — Vercel CLI：**
 
 ```bash
 npm run deploy
 ```
 
-The first run will prompt you to log in and configure your project. Subsequent runs deploy directly to production.
+首次运行会提示登录并配置项目，之后每次直接部署到生产环境。
 
-**Option B — Connect GitHub repo:**
+**方式二 — 连接 GitHub 仓库：**
 
-1. Push this repo to GitHub
-2. Go to [vercel.com](https://vercel.com) → New Project → Import your repo
-3. Vercel auto-detects Next.js — just click Deploy
+1. 将代码推送到 GitHub
+2. 访问 [vercel.com](https://vercel.com) → New Project → 导入仓库
+3. Vercel 自动识别 Next.js，点击 Deploy 即可
 
-No `vercel.json` needed. Vercel handles everything automatically for Next.js projects.
+无需 `vercel.json`，Vercel 对 Next.js 项目全自动配置。
 
-## Tech Stack
+## 技术栈
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | [Next.js 16](https://nextjs.org) (App Router) |
-| Language | TypeScript 5 |
-| Styling | [Tailwind CSS v4](https://tailwindcss.com) |
-| Image processing | Browser Canvas API |
-| ZIP packaging | [JSZip](https://stuk.github.io/jszip/) |
-| File download | [FileSaver.js](https://github.com/eligrey/FileSaver.js/) |
-| Testing | Jest + jest-canvas-mock |
+| 层级 | 技术 |
+|------|------|
+| 框架 | [Next.js 16](https://nextjs.org)（App Router） |
+| 语言 | TypeScript 5 |
+| 样式 | [Tailwind CSS v4](https://tailwindcss.com) |
+| 图片处理 | 浏览器 Canvas API |
+| ZIP 打包 | [JSZip](https://stuk.github.io/jszip/) |
+| 文件下载 | [FileSaver.js](https://github.com/eligrey/FileSaver.js/) |
+| 测试 | Jest + jest-canvas-mock |
 
-## How It Works
+## 工作原理
 
-1. User uploads images → validated client-side (type, size, count)
-2. Preview URLs created via `URL.createObjectURL()`
-3. On process: each image is drawn onto a `<canvas>` at target dimensions using `drawImage()` (forced stretch — no padding, no cropping)
-4. Canvas exported to Blob via `toBlob()`, object URLs revoked to free memory
-5. All Blobs added to a JSZip archive and downloaded via FileSaver
+1. 用户上传图片 → 客户端校验格式、大小、数量
+2. 通过 `URL.createObjectURL()` 生成本地预览
+3. 点击处理：每张图片绘制到目标尺寸的 `<canvas>`，使用 `drawImage()` 强制拉伸
+4. `toBlob()` 导出为 Blob，立即释放 object URL 节省内存
+5. 所有 Blob 打包为 JSZip 压缩包，通过 FileSaver 触发下载
 
-## Project Structure
+## 项目结构
 
 ```
 ├── app/
-│   ├── layout.tsx              # Root layout
-│   └── page.tsx                # Main page + state management
+│   ├── layout.tsx              # 根布局
+│   └── page.tsx                # 主页面 + 状态管理
 ├── components/
-│   ├── UploadZone.tsx          # Drag-and-drop upload
-│   ├── ImageList.tsx           # Thumbnail grid
-│   └── ResolutionSelector.tsx  # Resolution radio buttons
+│   ├── UploadZone.tsx          # 拖拽上传区域
+│   ├── ImageList.tsx           # 缩略图列表
+│   └── ResolutionSelector.tsx  # 分辨率选择器
 ├── lib/
-│   ├── types.ts                # Shared types + resolution constants
-│   ├── resizeImage.ts          # Canvas resize logic
-│   └── buildZip.ts             # ZIP assembly + filename deduplication
+│   ├── types.ts                # 共享类型 + 分辨率常量
+│   ├── resizeImage.ts          # Canvas 缩放逻辑
+│   └── buildZip.ts             # ZIP 打包 + 文件名去重
 └── __tests__/
     └── lib/
         ├── resizeImage.test.ts
         └── buildZip.test.ts
 ```
 
-## Contributing
+## 参与贡献
 
-Pull requests are welcome. For major changes, please open an issue first.
+欢迎提交 Pull Request。如有较大改动，请先开 Issue 讨论。
 
-1. Fork the repo
-2. Create your branch: `git checkout -b feat/your-feature`
-3. Commit your changes: `git commit -m "feat: add your feature"`
-4. Push: `git push origin feat/your-feature`
-5. Open a Pull Request
+1. Fork 本仓库
+2. 新建分支：`git checkout -b feat/your-feature`
+3. 提交改动：`git commit -m "feat: 添加新功能"`
+4. 推送分支：`git push origin feat/your-feature`
+5. 发起 Pull Request
 
-## License
+## 许可证
 
 [MIT](LICENSE)
