@@ -9,7 +9,7 @@
 
 ## 在线体验
 
-**[https://scrennshot-resizer.vercel.app](https://scrennshot-resizer.vercel.app)**
+**[https://ss-resizer.vercel.app](https://ss-resizer.vercel.app)**
 
 免费部署在 Vercel，无需安装，打开即用。
 
